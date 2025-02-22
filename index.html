@@ -3,120 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification de sécurité | CAPTCHA</title>
+    <title>Protection Anti-DDoS TX ADMIN | Sécurité FiveM</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        :root {
+            --primary: #1a9024;
+            --primary-dark: #1a9024;
+            --secondary: #1f2937;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.5;
+            background: #f3f4f6;
+        }
+
+        .nav-container {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            color: #ffffff;
         }
 
-        .container {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            padding: 2.5rem;
-            max-width: 480px;
-            width: 90%;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 50px;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 8rem 2rem 6rem;
+            margin-top: 4rem;
+            color: white;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
         }
 
-        .logo {
-            width: 180px;
-            height: auto;
-            margin-bottom: 2rem;
-            filter: brightness(0.9) contrast(1.1);
-        }
-
-        h1 {
-            font-size: 1.75rem;
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 1.5rem;
-            color: #4a9eff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            font-weight: 600;
+            line-height: 1.2;
         }
 
-        .description {
-            color: #b0b0b0;
+        .hero p {
+            font-size: 1.25rem;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            opacity: 0.9;
         }
 
-        .description strong {
-            color: #ffffff;
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            display: inline-block;
+            margin-top: 2rem;
         }
 
-        .captcha-container {
-            background: rgba(40, 40, 40, 0.95);
-            border-radius: 10px;
-            padding: 1.75rem;
-            margin: 1.5rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        .contact-info p {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin: 0;
         }
 
-        .footer {
-            margin-top: 2.5rem;
-            font-size: 0.9rem;
-            color: #808080;
+        .discord-tag {
+            font-weight: 700;
+            color: var(--primary);
         }
 
-        .ray-id {
-            font-family: monaco, courier, monospace;
-            font-size: 0.875rem;
-            color: #666666;
-            margin-top: 1.25rem;
-            padding-top: 1.25rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .features {
+            padding: 6rem 2rem;
+            background: white;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.75rem;
+        .section-title {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            color: var(--secondary);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .feature-card p {
+            color: #4b5563;
+        }
+
+        footer {
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
             }
-        }
 
-        /* Animation subtile au chargement */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+            .hero h1 {
+                font-size: 2rem;
+            }
 
-        .container {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        /* Effet de hover sur le conteneur */
-        .container:hover {
-            transform: translateY(-2px);
-            transition: transform 0.3s ease;
+            .section-title {
+                font-size: 1.75rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="./images/tx-discord-logo.png" alt="Logo" class="logo">
-        <h1>Vérification de sécurité requise</h1>
-        <p class="description">
-            Veuillez effectuer cette vérification pour accéder à l'enssemble du domaine <strong>txadmin.fr</strong>
-        </p>
-        <div class="captcha-container">
-            ::CAPTCHA_BOX::
-        </div>
-        <div class="footer">
-            <p>Cette vérification est en place pour protéger ce dommaine contre les attaques DDOS.</p>
-            <div class="ray-id">
-                Ray ID: 84752d1c59b3c21f
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="logo-container">
+                <img src="./images/tx-discord-logo.png" alt="TX ADMIN Logo" class="logo-img">
+                <!-- <span class="logo-text">TX ADMIN</span> -->
+            </div>
+            <div class="nav-links">
+                <a href="#features">Fonctionnalités</a>
+                <a href="#contact">Contact</a>
             </div>
         </div>
-    </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Protection Anti-DDoS Avancée pour TX ADMIN</h1>
+        <p>Sécurisez votre serveur FiveM contre les attaques DDoS avec notre solution spécialisée</p>
+        <div class="contact-info">
+            <p>Pour toute demande de protection, contactez <span class="discord-tag">steeve4808</span> sur Discord</p>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2 class="section-title">Fonctionnalités Principales</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Protection en Temps Réel</h3>
+                <p>Détection et mitigation instantanée des attaques DDoS ciblant votre TX ADMIN</p>
+            </div>
+            <div class="feature-card">
+                <h3>Sécurité</h3>
+                <p>Nous mettons en place un proxy vous garantissant aucun impacte sur votre serveur de jeu </p>
+            </div>
+            <div class="feature-card">
+                <h3>Configuration Simple</h3>
+                <p>Installation rapide et configuration intuitive pour une protection immédiate</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 TX ADMIN - Protection Anti-DDoS. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>
