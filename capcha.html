@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification de sécurité | CAPTCHA</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f6f6f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c7cb0;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .captcha-container {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: #999;
+        }
+
+        .ray-id {
+            font-family: monaco, courier, monospace;
+            font-size: 0.875rem;
+            color: #999;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/api/placeholder/180/60" alt="Logo" class="logo">
+        <h1>Vérification de sécurité requise</h1>
+        <p class="description">
+            Veuillez effectuer cette vérification pour accéder à <strong>example.com</strong>
+        </p>
+        <div class="captcha-container">
+            ::CAPTCHA_BOX::
+        </div>
+        <div class="footer">
+            <p>Cette vérification est en place pour protéger contre les accès automatisés.</p>
+            <div class="ray-id">
+                Ray ID: 84752d1c59b3c21f
+            </div>
+        </div>
+    </div>
+</body>
+</html>
