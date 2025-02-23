@@ -265,8 +265,8 @@
         </div>
         <div class="footer">
             <p>Cette vérification est en place pour protéger ce domaine contre les attaques DDoS.</p>
-            <div class="ray-id">
-                Ray ID: 84752d1c59b3c21f
+            <div class="ray-id" id="ray-id">
+                Ray ID: Chargement...
             </div>
         </div>
     </div>
@@ -284,9 +284,45 @@
             }
         }
 
+        // Récupération du Ray ID Cloudflare
+        async function getRayId() {
+            try {
+                // Tentative de récupération depuis les en-têtes de réponse
+                const response = await fetch(window.location.href);
+                const rayId = response.headers.get('cf-ray');
+                
+                if (rayId) {
+                    document.getElementById('ray-id').textContent = `Ray ID: ${rayId}`;
+                } else {
+                    // Si pas de Ray ID dans les en-têtes, on vérifie le DOM
+                    const cfRayElement = document.querySelector('cf-ray');
+                    if (cfRayElement) {
+                        const domRayId = cfRayElement.getAttribute('data-ray-id');
+                        if (domRayId) {
+                            document.getElementById('ray-id').textContent = `Ray ID: ${domRayId}`;
+                            return;
+                        }
+                    }
+                    
+                    // Si toujours pas de Ray ID, on cherche dans la réponse HTML
+                    const html = await response.text();
+                    const match = html.match(/Ray ID: ([a-f0-9]+)/);
+                    if (match && match[1]) {
+                        document.getElementById('ray-id').textContent = `Ray ID: ${match[1]}`;
+                    } else {
+                        document.getElementById('ray-id').textContent = 'Ray ID: Non disponible';
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur lors de la récupération du Ray ID:', error);
+                document.getElementById('ray-id').textContent = 'Ray ID: Non disponible';
+            }
+        }
+
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
+            getRayId();
         });
     </script>
 </body>
