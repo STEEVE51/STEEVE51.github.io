@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protection Anti-DDoS TX ADMIN | Sécurité FiveM</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
         :root {
             --primary: #1a9024;
-            --primary-dark: #1a9024;
-            --secondary: #1f2937;
+            --primary-dark: #157a1d;
+            --primary-glow: rgba(26, 144, 36, 0.3);
+            --dark-bg: #0a0c0f;
+            --dark-surface: #111318;
+            --dark-card: #16181d;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -20,12 +28,30 @@
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             line-height: 1.5;
-            background: #f3f4f6;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Effet de grid en arrière-plan */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(26, 144, 36, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 144, 36, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.2;
+            pointer-events: none;
         }
 
         .nav-container {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(10, 12, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
             position: fixed;
             width: 100%;
             top: 0;
@@ -46,18 +72,19 @@
             align-items: center;
             gap: 1rem;
             text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: translateY(-2px);
         }
 
         .logo-img {
-            width: 120px;
+            width: auto;
             height: 50px;
             border-radius: 8px;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+            filter: brightness(1.1) contrast(1.1);
+            object-fit: contain;
         }
 
         .nav-links {
@@ -66,67 +93,168 @@
         }
 
         .nav-links a {
-            color: var(--secondary);
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 0.1;
+            transform: scale(1);
         }
 
         .hero {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 8rem 2rem 6rem;
-            margin-top: 4rem;
-            color: white;
-            text-align: center;
+            background: linear-gradient(135deg, var(--dark-surface), var(--dark-bg));
+            padding: 10rem 2rem 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de lignes animées */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(transparent, transparent 2px, rgba(26, 144, 36, 0.1) 3px, transparent 3px);
+            background-size: 100% 4px;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            from { transform: translateY(0); }
+            to { transform: translateY(100px); }
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
             line-height: 1.2;
+            text-align: center;
+            background: linear-gradient(90deg, var(--text-primary), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
         .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+            font-size: 1.4rem;
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
         }
 
         .contact-info {
-            background: white;
-            padding: 2rem;
+            background: var(--dark-card);
+            padding: 2rem 3rem;
             border-radius: 1rem;
-            display: inline-block;
-            margin-top: 2rem;
+            border: 1px solid var(--border-color);
+            display: block;
+            width: fit-content;
+            margin: 2rem auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            left: 30%;
+            transform: translateX(-50%);
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(26, 144, 36, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .contact-info p {
             font-size: 1.25rem;
-            color: var(--secondary);
+            color: var(--text-primary);
             margin: 0;
+            position: relative;
         }
 
         .discord-tag {
             font-weight: 700;
             color: var(--primary);
+            background: rgba(26, 144, 36, 0.1);
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(26, 144, 36, 0.2);
+        }
+
+        .discord-tag:hover {
+            background: rgba(26, 144, 36, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
         .features {
-            padding: 6rem 2rem;
-            background: white;
+            padding: 8rem 2rem;
+            background: var(--dark-surface);
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 4rem;
-            color: var(--secondary);
+            color: var(--text-primary);
+            position: relative;
         }
 
         .features-grid {
@@ -134,36 +262,99 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
+            padding: 1rem;
         }
 
         .feature-card {
-            background: #f8f9fa;
-            padding: 2rem;
+            background: var(--dark-card);
+            padding: 2.5rem;
             border-radius: 1rem;
-            transition: transform 0.2s;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(26, 144, 36, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(26, 144, 36, 0.1);
+        }
+
+        .feature-card:hover::after {
+            transform: translateX(100%);
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--secondary);
+            color: var(--primary);
         }
 
         .feature-card p {
-            color: #4b5563;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
         footer {
-            background: var(--secondary);
-            color: white;
+            background: var(--dark-bg);
+            color: var(--text-secondary);
             text-align: center;
-            padding: 2rem;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Animation pour les éléments au scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ajout d'effets de particules */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
         @media (max-width: 768px) {
@@ -172,21 +363,31 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
-            .section-title {
-                font-size: 1.75rem;
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="grid-background"></div>
+    <div class="particles"></div>
+    
     <nav class="nav-container">
         <div class="nav-content">
             <div class="logo-container">
                 <img src="./images/tx-discord-logo.png" alt="TX ADMIN Logo" class="logo-img">
-                <!-- <span class="logo-text">TX ADMIN</span> -->
             </div>
             <div class="nav-links">
                 <a href="#features">Fonctionnalités</a>
@@ -204,17 +405,17 @@
     </section>
 
     <section id="features" class="features">
-        <h2 class="section-title">Fonctionnalités Principales</h2>
+        <h2 class="section-title reveal">Fonctionnalités Principales</h2>
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <h3>Protection en Temps Réel</h3>
                 <p>Détection et mitigation instantanée des attaques DDoS ciblant votre TX ADMIN</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <h3>Sécurité</h3>
-                <p>Nous mettons en place un proxy vous garantissant aucun impacte sur votre serveur de jeu </p>
+                <p>Nous mettons en place un proxy vous garantissant aucun impact sur votre serveur de jeu</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <h3>Configuration Simple</h3>
                 <p>Installation rapide et configuration intuitive pour une protection immédiate</p>
             </div>
@@ -224,5 +425,39 @@
     <footer>
         <p>&copy; 2025 TX ADMIN - Protection Anti-DDoS. Tous droits réservés.</p>
     </footer>
+
+    <script>
+        // Animation des particules
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Animation au scroll
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            window.addEventListener('scroll', reveal);
+            reveal();
+        });
+    </script>
 </body>
 </html>

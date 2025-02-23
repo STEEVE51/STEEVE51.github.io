@@ -5,77 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vérification de sécurité | CAPTCHA</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #1a9024;
+            --primary-dark: #157a1d;
+            --primary-glow: rgba(26, 144, 36, 0.3);
+            --dark-bg: #0a0c0f;
+            --dark-surface: #111318;
+            --dark-card: #16181d;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--dark-bg);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #ffffff;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de grid en arrière-plan */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(26, 144, 36, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 144, 36, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Animation de scan */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: scan 3s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
         }
 
         .container {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: var(--dark-surface);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             padding: 2.5rem;
             max-width: 480px;
             width: 90%;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Effet de lueur sur les bords */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(26, 144, 36, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .logo {
-            width: 180px;
-            height: auto;
+            width: auto;
+            height: 60px;
             margin-bottom: 2rem;
-            filter: brightness(0.9) contrast(1.1);
+            filter: brightness(1.1) contrast(1.1) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         h1 {
             font-size: 1.75rem;
             margin-bottom: 1.5rem;
-            color: #4a9eff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
             font-weight: 600;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .description {
-            color: #b0b0b0;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
 
         .description strong {
-            color: #ffffff;
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
         .captcha-container {
-            background: rgba(40, 40, 40, 0.95);
-            border-radius: 10px;
+            background: var(--dark-card);
+            border-radius: 12px;
             padding: 1.75rem;
             margin: 1.5rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .captcha-container:hover {
+            border-color: var(--primary);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
+                        0 0 20px rgba(26, 144, 36, 0.1);
         }
 
         .footer {
             margin-top: 2.5rem;
             font-size: 0.9rem;
-            color: #808080;
+            color: var(--text-secondary);
         }
 
         .ray-id {
             font-family: monaco, courier, monospace;
             font-size: 0.875rem;
-            color: #666666;
+            color: var(--text-secondary);
             margin-top: 1.25rem;
             padding-top: 1.25rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border-color);
+            opacity: 0.7;
         }
 
         @media (max-width: 480px) {
@@ -84,39 +192,102 @@
             }
         }
 
-        /* Animation subtile au chargement */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animation d'entrée améliorée */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .container {
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Effet de hover sur le conteneur */
+        /* Effet de particules */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        /* Effet de pulse sur le conteneur */
+        @keyframes subtle-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.001); }
+            100% { transform: scale(1); }
+        }
+
         .container:hover {
-            transform: translateY(-2px);
-            transition: transform 0.3s ease;
+            animation: subtle-pulse 2s infinite;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+                       0 0 20px var(--primary-glow);
         }
     </style>
 </head>
 <body>
+    <div class="grid-background"></div>
+    <div class="scan-line"></div>
+    <div class="particles"></div>
+    
     <div class="container">
         <img src="./images/tx-discord-logo.png" alt="Logo" class="logo">
         <h1>Vérification de sécurité requise</h1>
         <p class="description">
-            Veuillez effectuer cette vérification pour accéder à l'enssemble du domaine <strong>txadmin.fr</strong>
+            Veuillez effectuer cette vérification pour accéder à l'ensemble du domaine <strong>txadmin.fr</strong>
         </p>
         <div class="captcha-container">
             ::CAPTCHA_BOX::
         </div>
         <div class="footer">
-            <p>Cette vérification est en place pour protéger ce dommaine contre les attaques DDOS.</p>
+            <p>Cette vérification est en place pour protéger ce domaine contre les attaques DDoS.</p>
             <div class="ray-id">
                 Ray ID: 84752d1c59b3c21f
             </div>
         </div>
     </div>
+
+    <script>
+        // Animation des particules
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+        });
+    </script>
 </body>
 </html>
